@@ -1,0 +1,27 @@
+name: Move Issue in GitHub Project
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_project:
+    runs-on: windows-latest
+    steps:
+      - name: Extract issue number from commit message
+        shell: pwsh
+        run: |
+          $commitMessage = git log -1 --pretty=%B
+          Write-Host "Commit Message: $commitMessage"
+
+          if ($commitMessage -match "CS4067-(\d+)") {
+            $issueNumber = $matches[1]
+            Write-Host "Found issue number: CS4067-$issueNumber"
+
+            gh project item-update YOUR_ORG_OR_USERNAME/YOUR_PROJECT_ID --id $issueNumber --field "Status" --value "In Progress"
+          } else {
+            Write-Host "No matching issue found in commit message."
+          }
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
