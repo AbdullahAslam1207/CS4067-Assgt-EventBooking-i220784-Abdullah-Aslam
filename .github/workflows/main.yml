@@ -19,7 +19,7 @@ jobs:
             $issueNumber = $matches[1]
             Write-Host "Found issue number: CS4067-$issueNumber"
 
-            gh project item-update YOUR_ORG_OR_USERNAME/YOUR_PROJECT_ID --id $issueNumber --field "Status" --value "In Progress"
+            gh project item-update AbdullahAslam1207/2 --id $issueNumber --field "Status" --value "In Progress"
           } else {
             Write-Host "No matching issue found in commit message."
           }
