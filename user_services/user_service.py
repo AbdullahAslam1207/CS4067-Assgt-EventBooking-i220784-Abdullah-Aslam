@@ -6,7 +6,7 @@ from sqlalchemy.future import select
 from sqlalchemy import Column, Integer, String, MetaData, Table
 
 
-#againagainagain
+#againagainagainagain
 DATABASE_URL = "postgresql+asyncpg://postgres:1234@localhost:5432/users_db"
 
 engine = create_async_engine(DATABASE_URL, echo=True)
