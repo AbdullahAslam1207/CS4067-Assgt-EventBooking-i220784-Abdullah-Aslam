@@ -91,6 +91,5 @@ The Event Booking System is a microservices-based application designed to stream
 ### MongoDB (`payment_db`, `notification_db`)
 - **Payments Collection**: Stores transaction history.
 - **Notifications Collection**: Stores booking confirmations.
-## Contact
-For any inquiries, please contact **Abdullah Aslam** at [your-email@example.com].
+
 
