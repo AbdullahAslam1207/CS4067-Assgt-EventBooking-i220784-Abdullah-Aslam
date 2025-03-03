@@ -92,4 +92,3 @@ The Event Booking System is a microservices-based application designed to stream
 - **Payments Collection**: Stores transaction history.
 - **Notifications Collection**: Stores booking confirmations.
 
-
