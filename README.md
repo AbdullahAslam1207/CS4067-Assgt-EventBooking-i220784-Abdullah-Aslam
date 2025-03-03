@@ -3,7 +3,6 @@
 ## Project Overview
 The Event Booking System is a microservices-based application designed to streamline event ticket booking, payment processing, and real-time notifications. Built using FastAPI, PostgreSQL, MongoDB, and RabbitMQ, it ensures secure transactions, high availability, and a seamless user experience.
 
----
 ## How It Works (Project Flow)
 
 1. **User Authentication (`user_service.py`)**  
@@ -28,7 +27,6 @@ The Event Booking System is a microservices-based application designed to stream
    - Stores booking notifications in MongoDB (`notification_db`).  
    - Can be extended to send email/SMS alerts.  
 
----
 ## Installation Guide
 
 1. **Clone the Repository**:
@@ -59,7 +57,6 @@ The Event Booking System is a microservices-based application designed to stream
    uvicorn notification_service:app --reload --port 8006
    ```
 
----
 ## API Endpoints
 
 ### User Service (`user_service.py`)
@@ -97,7 +94,6 @@ The Event Booking System is a microservices-based application designed to stream
 - **Processes messages from RabbitMQ**  
   - Stores booking confirmations in MongoDB (`notification_db`).
 
----
 ## Technology Stack
 | Component           | Technology  |
 |--------------------|------------|
@@ -114,8 +110,4 @@ The Event Booking System is a microservices-based application designed to stream
 ### MongoDB (`payment_db`, `notification_db`)
 - **Payments Collection**: Stores transaction history.
 - **Notifications Collection**: Stores booking confirmations.
-
----
-## Contact
-For any inquiries, please contact **Abdullah Aslam** at [your-email@example.com].
 
