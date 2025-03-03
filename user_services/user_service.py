@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.future import select
-from sqlalchemy import Column, Integer, String, MetaData, Table
+from sqlalchemy import Column, Integer, String, MetaData, Table 
 
 
 #againagainagainagainjjj
