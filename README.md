@@ -40,7 +40,7 @@ The Event Booking System is a microservices-based application designed to stream
    python -m venv venv
    source venv/bin/activate  # On macOS/Linux
    venv\Scripts\activate     # On Windows
-   
+   ```
 
 3. **Install Dependencies**:
    ```bash
@@ -110,4 +110,5 @@ The Event Booking System is a microservices-based application designed to stream
 ### MongoDB (`payment_db`, `notification_db`)
 - **Payments Collection**: Stores transaction history.
 - **Notifications Collection**: Stores booking confirmations.
+
 
