@@ -80,7 +80,7 @@ def delete_event(id: str):
         result = events_collection.delete_one({"_id": ObjectId(id)})
         if result.deleted_count == 0:
             raise HTTPException(status_code=404, detail="Event not found")
-        return {"Message": "Event deleted successfully"}
+        return {"message": "Event deleted successfully"}
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error deleting event: {str(e)}")

@@ -71,7 +71,7 @@ def get_notifications(user_id: int = Query(...), unread_only: bool = Query(False
 @app.post("/notifications/{notif_id}/read")
 def mark_as_read(notif_id: str):
     """
-    Mark a specific notification as read by its _id.
+    Mark a specific notification as read by its id.
     """
     from bson import ObjectId
     result = notifications_collection.update_one(
