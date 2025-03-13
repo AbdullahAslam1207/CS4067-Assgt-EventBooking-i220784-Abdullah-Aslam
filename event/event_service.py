@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from pymongo import MongoClient
 from bson import ObjectId
 from typing import List, Optional
-from datetime import date
+from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -29,14 +29,13 @@ class Event(BaseModel):
     id: Optional[str] = None
     name: str
     venue: str
-    date: date  # Using a proper date type
+    date: str  # Accepting date as a string (ISO format) for compatibility with MongoDB
 
     class Config:
         allow_population_by_field_name = True
         extra = "forbid"  # Forbid extra fields except those defined
         json_encoders = {
-            ObjectId: str,
-            date: lambda v: v.isoformat()
+            ObjectId: str
         }
 
 # Endpoint to list all events
@@ -44,38 +43,44 @@ class Event(BaseModel):
 def list_events():
     events = []
     for doc in events_collection.find():
-        # Convert ObjectId to string and store in 'id'
         doc["id"] = str(doc["_id"])
         doc.pop("_id", None)
-        if "venue" not in doc:
-            doc["venue"] = "Unknown"
+        if isinstance(doc["date"], datetime):
+            doc["date"] = doc["date"].strftime("%Y-%m-%d")  # Convert to string format
         events.append(doc)
     return events
 
 # Endpoint to create a new event
 @app.post("/events", response_model=Event)
 def create_event(event: Event):
-    event_dict = event.dict(by_alias=True)
-    print("Received event creation request:", event_dict)
-    event_dict.pop("_id", None)
-    result = events_collection.insert_one(event_dict)
-    created_event = events_collection.find_one({"_id": result.inserted_id})
-    print("Event created successfully with ID:", result.inserted_id)
-    # Convert _id to id
-    if created_event and "_id" in created_event:
-        created_event["id"] = str(created_event["_id"])
-        created_event.pop("_id", None)
-    return Event(**created_event)
+    try:
+        event_dict = event.dict(by_alias=True)
+        event_dict.pop("_id", None)
+
+        # Convert date string to datetime object before inserting into MongoDB
+        event_dict["date"] = datetime.strptime(event_dict["date"], "%Y-%m-%d")
+
+        result = events_collection.insert_one(event_dict)
+        created_event = events_collection.find_one({"_id": result.inserted_id})
+        
+        if created_event and "_id" in created_event:
+            created_event["id"] = str(created_event["_id"])
+            created_event.pop("_id", None)
+            created_event["date"] = created_event["date"].strftime("%Y-%m-%d")  # Convert back to string
+
+        return Event(**created_event)
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error creating event: {str(e)}")
 
 # Endpoint to delete an event
 @app.delete("/events/{id}")
 def delete_event(id: str):
-    print(f"Received delete request for event ID: {id}")
-    result = events_collection.delete_one({"_id": ObjectId(id)})
-    if result.deleted_count == 0:
-        print("Event not found:", id)
-        raise HTTPException(status_code=404, detail="Event not found")
-    print("Event deleted successfully:", id)
-    return {"message": "Event deleted successfully"}
-
-# Run the app with: uvicorn your_file_name:app --reload
+    try:
+        result = events_collection.delete_one({"_id": ObjectId(id)})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Event not found")
+        return {"message": "Event deleted successfully"}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting event: {str(e)}")
