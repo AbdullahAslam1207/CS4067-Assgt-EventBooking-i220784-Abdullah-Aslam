@@ -54,7 +54,7 @@ async def startup_event():
 def get_notifications(user_id: int = Query(...), unread_only: bool = Query(False)):
     """
     Return notifications for a given user_id.
-    If unread_only=true, only return notifications where read=false.
+    If unread_only=true, return notifications where read=false.
     """
     query = {"user_id": user_id}
     if unread_only:

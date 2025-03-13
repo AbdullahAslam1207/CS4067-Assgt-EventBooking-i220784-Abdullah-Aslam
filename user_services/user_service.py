@@ -65,7 +65,7 @@ async def login(request: LoginRequest, db: AsyncSession = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    return {"message": "Login successful", "user_id": user.id}
+    return {"Message": "Login successful", "user_id": user.id}
 
 # Registration endpoint
 @app.post("/register")

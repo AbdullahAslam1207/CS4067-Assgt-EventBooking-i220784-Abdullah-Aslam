@@ -82,7 +82,7 @@ async def create_booking(request: BookingRequest, db: AsyncSession = Depends(get
         result = await db.execute(insert_query)
         booking_id = result.scalar()
         await db.commit()
-        print("Booking saved with ID:", booking_id)
+        print("Booking Saved with ID:", booking_id)
     except Exception as e:
         print("Error saving booking:", str(e))
         raise HTTPException(status_code=500, detail="Error saving booking")
