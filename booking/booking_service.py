@@ -84,7 +84,7 @@ async def create_booking(request: BookingRequest, db: AsyncSession = Depends(get
         await db.commit()
         print("Booking Saved with ID:", booking_id)
     except Exception as e:
-        print("Error saving booking:", str(e))
+        print("error saving booking:", str(e))
         raise HTTPException(status_code=500, detail="Error saving booking")
     
     # Publish confirmation message to RabbitMQ (optional)
